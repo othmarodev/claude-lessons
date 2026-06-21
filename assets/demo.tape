@@ -7,9 +7,9 @@ Output assets/demo.gif
 
 Set Shell "bash"
 Set FontSize 20
-Set Width 1200
-Set Height 640
-Set Padding 24
+Set Width 1100
+Set Height 470
+Set Padding 26
 Set Theme { "name": "nevergain", "background": "#0d1117", "foreground": "#c9d1d9", "cursor": "#0d1117", "black": "#0d1117", "red": "#ff5f56", "green": "#7ee787", "yellow": "#e3b341", "blue": "#58a6ff", "magenta": "#a371f7", "cyan": "#39c5cf", "white": "#c9d1d9", "brightBlack": "#6e7681", "brightWhite": "#f0f6fc" }
 
 Hide

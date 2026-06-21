@@ -5,7 +5,7 @@
 <p align="center">It detects your real mistakes from the session transcript, turns each into a one-line rule,<br/>and recalls them every session — so the same mistake never happens twice. Just markdown + hooks.</p>
 
 <p align="center">
-  <img src="assets/prevention-moment.svg" alt="never-again preventing a repeated mistake across two sessions" width="720">
+  <img src="assets/demo.gif" alt="never-again preventing a repeated mistake across two sessions" width="760">
 </p>
 
 <p align="center">

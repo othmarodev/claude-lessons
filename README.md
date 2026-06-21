@@ -30,22 +30,54 @@ A lesson is just one line — dated, tagged, with the *why* attached so it can b
 
 ## Install
 
-```
-/plugin marketplace add othmarodev/claude-lessons
-/plugin install never-again@claude-lessons-marketplace
-```
+> **New to Claude Code plugins?** The two `/plugin` commands below are **not** shell commands — you type them
+> **inside** a running Claude Code session, not in your plain terminal. Follow the steps exactly.
 
-That's it — the skill and both hooks (auto-capture + auto-recall) are now active.
+**Prerequisite:** [Claude Code](https://github.com/anthropics/claude-code) installed (`claude --version` should print a version).
+
+1. Open your terminal and start Claude Code:
+
+   ```bash
+   claude
+   ```
+
+   You're now **inside** Claude Code (you'll see its prompt). The next two commands go here, not in bash.
+
+2. Add this repo as a plugin marketplace — type it at the Claude Code prompt and press Enter:
+
+   ```
+   /plugin marketplace add othmarodev/claude-lessons
+   ```
+
+3. Install the plugin (confirm if it shows a menu):
+
+   ```
+   /plugin install never-again@claude-lessons-marketplace
+   ```
+
+4. Restart Claude Code so the hooks load: type `/exit`, then run `claude` again.
+
+**Verify it worked:** start a new session — at the top you should see never-again inject your lessons (or, on a
+fresh install, a note that the skill is available). That's the auto-recall hook firing. ✅
+
+> ❌ Common mistake: pasting `/plugin ...` straight into your terminal **before** running `claude`. Bash will say
+> "command not found". The `/` commands only work **inside** Claude Code (after step 1).
 
 <details>
-<summary>Manual install (skill + recall only, no auto-capture hook)</summary>
+<summary>Manual install (skill + recall only — no automatic capture)</summary>
+
+This gives you the skill and lets the agent read the ledger, but **not** the auto-capture/auto-recall hooks.
+Use the plugin install above for the full experience.
 
 ```bash
 git clone https://github.com/othmarodev/claude-lessons.git
 cp -r claude-lessons/skills/never-again ~/.claude/skills/
 mkdir -p ~/.claude/never-again && cp claude-lessons/templates/LESSONS.md ~/.claude/never-again/LESSONS.md
-# optional: enable the hooks by adding claude-lessons/hooks/hooks.json's entries to ~/.claude/settings.json
 ```
+
+Enabling the hooks by hand is fiddly — the plugin install is strongly recommended for the full experience. If
+you must: the cloned repo's `hooks/` folder holds the scripts; register `hooks/hooks.json`'s entries in your
+`~/.claude/settings.json` and run `chmod +x claude-lessons/hooks/session-start claude-lessons/hooks/stop claude-lessons/hooks/detect-rework.py`.
 </details>
 
 ## How it works

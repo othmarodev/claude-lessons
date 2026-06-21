@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# SessionStart hook for never-again. Injects the lessons ledger(s) into context so
+# Claude recalls past mistakes automatically. Reads global + per-project ledgers and
+# flags any auto-detected candidates waiting in the inbox. Read-only, no network.
+
+set -uo pipefail
+
+NA_DIR="${HOME}/.claude/never-again"
+GLOBAL="${NA_DIR}/LESSONS.md"
+INBOX="${NA_DIR}/INBOX.md"
+PROJECT_DIR="${CLAUDE_PROJECT_DIR:-}"
+PROJECT_LEDGER=""
+[ -n "${PROJECT_DIR}" ] && PROJECT_LEDGER="${PROJECT_DIR}/.claude/never-again/LESSONS.md"
+
+intro="You have a never-again lessons ledger. Apply these hard-won rules before acting; do not repeat these mistakes. When a new real mistake/rework/correction happens, capture it via the 'never-again' skill."
+body="${intro}"
+
+if [ -f "${GLOBAL}" ]; then
+  body="${body}"$'\n\n'"## Global lessons"$'\n'"$(cat "${GLOBAL}" 2>/dev/null || true)"
+fi
+
+if [ -n "${PROJECT_LEDGER}" ] && [ -f "${PROJECT_LEDGER}" ]; then
+  body="${body}"$'\n\n'"## Project lessons (this repo)"$'\n'"$(cat "${PROJECT_LEDGER}" 2>/dev/null || true)"
+fi
+
+if [ -f "${INBOX}" ] && grep -q "\[ \]" "${INBOX}" 2>/dev/null; then
+  n="$(grep -c "\[ \]" "${INBOX}" 2>/dev/null || echo 0)"
+  body="${body}"$'\n\n'"## Pending: ${n} auto-detected candidate(s) in ~/.claude/never-again/INBOX.md — review them with the never-again skill (confirm the real ones into the ledger, discard noise, clear the inbox)."
+fi
+
+if [ ! -f "${GLOBAL}" ] && { [ -z "${PROJECT_LEDGER}" ] || [ ! -f "${PROJECT_LEDGER}" ]; }; then
+  body="The never-again skill is available. No lessons ledger exists yet — create ~/.claude/never-again/LESSONS.md (one-line rule per real mistake) on the first avoidable rework, per the never-again skill."
+fi
+
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"; s="${s//\"/\\\"}"; s="${s//$'\n'/\\n}"; s="${s//$'\r'/\\r}"; s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+escaped="$(escape_for_json "${body}")"
+printf '{\n  "hookSpecificOutput": {\n    "hookEventName": "SessionStart",\n    "additionalContext": "%s"\n  }\n}\n' "${escaped}"
+exit 0

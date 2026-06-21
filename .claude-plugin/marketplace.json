@@ -1,0 +1,15 @@
+{
+  "name": "claude-lessons-marketplace",
+  "owner": {
+    "name": "Othmaro Fallas Rojas",
+    "url": "https://github.com/othmarodev"
+  },
+  "plugins": [
+    {
+      "name": "never-again",
+      "source": "./",
+      "description": "Automatic, lean lessons-learned memory: detect mistakes from the transcript, never repeat them.",
+      "version": "0.2.0"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "never-again",
+  "description": "Automatic, lean lessons-learned memory for Claude Code: detect mistakes from the transcript, never repeat them. Just markdown + hooks — no DB, no API.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Othmaro Fallas Rojas",
+    "email": "othmaro@othmaro.dev",
+    "url": "https://github.com/othmarodev"
+  },
+  "homepage": "https://github.com/othmarodev/claude-lessons",
+  "repository": "https://github.com/othmarodev/claude-lessons",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "skills",
+    "memory",
+    "lessons-learned",
+    "self-improving",
+    "retrospective",
+    "hooks",
+    "tokens"
+  ]
+}

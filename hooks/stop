@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Stop hook for never-again. Runs the automatic rework detector if python3 is present.
+# Fails open (exit 0) so it can never block a stop, and degrades gracefully to
+# manual-only capture when python3 is unavailable.
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+if command -v python3 >/dev/null 2>&1; then
+  python3 "${SCRIPT_DIR}/detect-rework.py" || true
+fi
+exit 0
